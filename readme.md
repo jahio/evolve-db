@@ -35,3 +35,7 @@ Evolve against it again. Evolve will figure out what needs to change on its own,
 - [ ] Automatic translation between incompatible datatypes between databases (e.g. `TEXT` in SQLite to `VARCHAR` in PostgreSQL)
 - [ ] Warning when relying on a data type not available in other SQL databases (e.g. `uuid` or `json` in PostgreSQL)
 - [ ] Ability to suggest - and automatically apply, in deployment - a suitable automatic replacement for incompatible datatypes (e.g. `uuid` in psql -> `varchar(36)` in MySQL)
+- [ ] Support for specifying the limit/number of characters in a varchar column
+- [ ] Support for Support for specifying the precision and scale of a decimal column
+- [ ] Before and after hooks for the entire migration process
+- [ ] Before and after hooks for each individual table migration within the process
