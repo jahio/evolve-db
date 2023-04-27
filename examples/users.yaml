@@ -1,0 +1,20 @@
+---
+table: users
+primary_key:
+  - type: uuid
+    name: id
+created_at: true
+updated_at: true
+columns:
+  - name: name
+    type: string
+    null: false
+  - name: email
+    type: string
+    null: false
+indexes:
+  - name: idx_users_email
+    columns:
+      - email
+    unique: true
+    

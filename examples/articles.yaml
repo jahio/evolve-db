@@ -1,0 +1,27 @@
+---
+table: articles
+primary_key:
+  - type: uuid
+    name: id
+created_at: true
+updated_at: true
+columns:
+  - name: title
+    type: string
+    null: false
+  - name: subtitle
+    type: string
+  - name: body
+    type: text
+  - name: user_id
+    type: uuid
+    fk:
+      table: users
+      column: id
+indexes:
+  - name: idx_articles_title_user_id
+    columns:
+      - title
+      - user_id
+    unique: true
+    
