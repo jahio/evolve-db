@@ -99,3 +99,22 @@ indexes:
 - [ ] Support for Support for specifying the precision and scale of a decimal column
 - [ ] Before and after hooks for the entire migration process
 - [ ] Before and after hooks for each individual table migration within the process
+
+## Basic Concept for Execution Loop (Notes)
+
+1. Create three empty arrays:
+  - One for the schema as defined in the user's YAML plain text files on disk
+  - One for the schema changes that are already in place (things we don't have to do because they're already a perfect match)
+  - One for the work that still needs to be done because the database has deviated from what the YAML says it should be
+1. Hoover up all the YAML files in some directory
+1. Parse them all into a series of objects as structs of some kind
+1. Pop them all into the first array (any order is fine)
+1. Loop through the first array (any order). For each item:
+  1. If the DB matches that state already, move the item from the first array to the second array
+  1. If the DB does NOT line up with that item:
+    1. Check to see if the defined schema has any foreign keys. For each one, look to see if the table it wants already exists. If not, move that migration to the front of the last array above (the TBD array)
+    1. Repeat until everything's accounted for
+  1. Run the "TODO" array through this algorithm again to re-assess order
+  1. Once the order of operations is reconciled, present a summary plan to the user for approval.
+  1. Once they say "OK" and hit enter, convert the necessary changes into a SQL-appropriate dialect for whatever SQL database is being used
+  1. Run those SQL commands showing progress to the end user each step of the way
