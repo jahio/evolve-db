@@ -10,6 +10,66 @@ With Evolve, you don't keep track of individual files, each representing an indi
 text YAML file per table in your database. That's it. And then as your application's needs change over time, you simply update that file and re-run
 Evolve against it again. Evolve will figure out what needs to change on its own, and then handle those changes for you automatically.
 
+## Quick Example of DSL/YAML
+
+Say you'd like to define a users table for your blog app:
+
+```yaml
+---
+# users.yaml
+table: users
+primary_key:
+  - type: uuid
+    name: id
+created_at: true
+updated_at: true
+columns:
+  - name: name
+    type: string
+    null: false
+  - name: email
+    type: string
+    null: false
+indexes:
+  - name: idx_users_email
+    columns:
+      - email
+    unique: true
+```
+
+And then of course you need the table that holds the articles:
+
+```yaml
+---
+# articles.yaml
+table: articles
+primary_key:
+  - type: uuid
+    name: id
+created_at: true
+updated_at: true
+columns:
+  - name: title
+    type: string
+    null: false
+  - name: subtitle
+    type: string
+  - name: body
+    type: text
+  - name: user_id
+    type: uuid
+    fk:
+      table: users
+      column: id
+indexes:
+  - name: idx_articles_title_user_id
+    columns:
+      - title
+      - user_id
+    unique: true
+    
+```
+
 ## MVP Features
 
 - [ ] Support for PostgreSQL
